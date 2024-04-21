@@ -4,6 +4,11 @@ class Solution(object):
         :type nums: List[int]
         :rtype: bool
         """
-        s = set(nums)
-        return len(s) != len(nums)
+        s = set()
+        for n in nums:
+            if n in s:
+                return True
+            s.add(n)
+        return False
+                
             
