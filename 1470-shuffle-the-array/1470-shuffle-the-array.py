@@ -3,6 +3,7 @@ class Solution:
         i= 0
         result = []
         while i < int(len(nums)/2):
-            result.extend([nums[i],nums[i+int(len(nums)/2)]])
+            result.append(nums[i])
+            result.append(nums[i+int(len(nums)/2)])
             i+=1
         return result
