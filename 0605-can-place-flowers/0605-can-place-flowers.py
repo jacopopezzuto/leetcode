@@ -7,8 +7,8 @@ class Solution:
             if left and right and flowerbed[i]==0:
                 flowerbed[i]=1
                 count+=1
-        print (flowerbed)
-        print(count)
+                if count>=n:
+                    return True
         return count>=n
                 
         
