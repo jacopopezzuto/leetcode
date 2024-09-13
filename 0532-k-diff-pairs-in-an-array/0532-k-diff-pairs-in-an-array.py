@@ -10,7 +10,5 @@ class Solution:
                     if couple not in set_pairs:
                         result+=1
                         set_pairs.add(couple)
-                        print(couple)
-                        print(i,k)
                 j+=1
         return result
