@@ -1,44 +1,40 @@
 class Solution:
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
-        M,N = len(heights), len(heights[0])
-        pacific_reachable, atlantic_reachable = [], []
-        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        
-        for i in range(0,M):
-            pacific_reachable.append([False]*N)
-            atlantic_reachable.append([False]*N)
-        
-        def bfs(queue: deque, reachable: List[List[bool]]):
+        m,n=len(heights),len(heights[0])
+        pacific,atlantic=[],[]
+        directions=[[1,0],[0,1],[-1,0],[0,-1]]
+        for i in range(0,m):
+            pacific.append([False]*n)
+            atlantic.append([False]*n)
+        def bfs(queue,ocean):
             while queue:
                 x,y=queue.popleft()
-                reachable[x][y]=True
-                for i,j in directions:
-                    nx,ny = x+i,y+j
-                    if 0 <= nx < M and 0 <= ny < N and not reachable[nx][ny]:
-                        if heights[nx][ny] >= heights[x][y]:
-                            queue.append((nx, ny))
+                for dx,dy in directions:
+                    nx,ny=x+dx,y+dy
+                    if 0<=nx<m and 0<=ny<n and heights[nx][ny]>=heights[x][y] and ocean[nx][ny]!=True:
+                        queue.append([nx,ny])
+                        ocean[nx][ny]=True
         
-        pacific_queue=deque()
-        for i in range(0,N):
-            pacific_queue.append((0,i))
-            pacific_reachable[0][i]=True
-        for i in range(0,M):
-            pacific_queue.append((i,0))
-            pacific_reachable[i][0]=True
-        bfs(pacific_queue, pacific_reachable)
-        
-        atlantic_queue=deque()
-        for i in range(0,N):
-            atlantic_queue.append((M-1,i))
-            atlantic_reachable[M-1][i]=True
-        for i in range(0,M):
-            atlantic_queue.append((i,N-1))
-            atlantic_reachable[i][N-1]=True
-        bfs(atlantic_queue, atlantic_reachable)
-        
+        pacific_q=deque()
+        for i in range(0,n):
+            pacific[0][i]=True
+            pacific_q.append([0,i])
+        for i in range(0,m):
+            pacific[i][0]=True
+            pacific_q.append([i,0])
+        bfs(pacific_q,pacific)
+        atlantic_q=deque()
+        for i in range(0,m):
+            atlantic[i][n-1]=True
+            atlantic_q.append([i,n-1])
+            
+        for i in range(0,n):
+            atlantic[m-1][i]=True
+            atlantic_q.append([m-1,i])
+        bfs(atlantic_q,atlantic)
         result=[]
-        for i in range(0,M):
-            for j in range(0,N):
-                if atlantic_reachable[i][j]==True and pacific_reachable[i][j]==True:
+        for i in range(0,m):
+            for j in range(0,n):
+                if pacific[i][j]==True and atlantic[i][j]==True:
                     result.append([i,j])
         return result
