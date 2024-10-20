@@ -1,13 +1,13 @@
 class Solution:
     def areOccurrencesEqual(self, s: str) -> bool:
-        dict = {}
-        for c in s:
-            if dict.get(c,-1) > 0:
-                dict[c] = dict.get(c,-1)+1
+        occ={}
+        for i in range(0,len(s)):
+            if s[i] in occ:
+                occ[s[i]]+=1
             else:
-                dict[c] = 1
-        first_size = dict[s[0]]
-        for item in dict:
-            if first_size != dict[item]:
+                occ[s[i]]=1
+        to_check=occ[s[0]]
+        for key,value in occ.items():
+            if value!=to_check:
                 return False
         return True
