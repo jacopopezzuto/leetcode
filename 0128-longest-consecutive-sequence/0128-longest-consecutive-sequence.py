@@ -1,17 +1,11 @@
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
-        n=len(nums)
-        s=set()
-        result=0
-        for i in range(0,n):
-            s.add(nums[i])
-        for i in range(0,n):
-            count=0
-            if nums[i]-1 not in s and nums[i] in s:
-                count=0
-                item_to_check = nums[i]
-                while item_to_check in s:
-                    count+=1
-                    item_to_check+=1
-                result=max(result,count)
-        return result
+        val = set(nums)
+        count = 0
+        for i in val:
+            if (i-1) not in val:
+                leng = 1
+                while i+leng in val:
+                    leng += 1
+                count = max(count , leng)
+        return count
