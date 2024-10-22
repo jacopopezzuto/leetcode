@@ -2,19 +2,14 @@ class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
         if len(s)!=len(t):
             return False
-        occ1,occ2 = {},{}
-        for i in s:
-            if i in occ1:
-                occ1[i]+=1
-            else:
-                occ1[i]=1
-        for i in t:
-            if i in occ2:
-                occ2[i]+=1
-            else:
-                occ2[i]=1
-        for key,value in occ1.items():
-            if key not in occ2 or value != occ2[key]:
+        alphabet=[0]*26
+        for i in range(0,len(s)):
+            char_s=ord(s[i])-97
+            char_t=ord(t[i])-97
+            alphabet[char_s]+=1
+            alphabet[char_t]-=1
+        for i in range(0,len(alphabet)):
+            if alphabet[i]!=0:
                 return False
         return True
             
