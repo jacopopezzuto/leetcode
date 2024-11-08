@@ -1,19 +1,18 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        counter=0
         m,n=len(grid),len(grid[0])
-        directions=[[0,1],[1,0],[-1,0],[0,-1]]
-        def countIslands(i,j):
-            if not(0<=i<m and 0<=j<n) or grid[i][j]!="1":
-                return 
-            grid[i][j]=2
+        directions=[[1,0],[0,1],[-1,0],[0,-1]]
+        count=0
+        def bfs(i,j):
             for x,y in directions:
-                countIslands(i+x,j+y)
+                nx,ny = i+x, j+y
+                if 0<=nx<m and 0<=ny<n and grid[nx][ny]=="1":
+                    grid[nx][ny]="2"
+                    bfs(nx,ny)
         
-        for i in range(0,m):
-            for j in range(0,n):
+        for i in range(m):
+            for j in range(n):
                 if grid[i][j]=="1":
-                    countIslands(i,j)
-                    counter+=1
-        return counter
-    
+                    bfs(i,j)
+                    count+=1
+        return count
