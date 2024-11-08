@@ -19,6 +19,7 @@ class Solution:
                     if grid[r][c]!=grid[r+i][c+j]:
                         is_equal=False
                         break
+                if not is_equal: break
             if is_equal==True:
                 return Node(grid[r][c],1)
             n=n//2
