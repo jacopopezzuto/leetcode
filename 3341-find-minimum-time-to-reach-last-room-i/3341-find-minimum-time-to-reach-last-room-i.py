@@ -1,25 +1,23 @@
 class Solution:
     def minTimeToReach(self, moveTime: List[List[int]]) -> int:
-        R=len(moveTime)
-        C=len(moveTime[0])
-        dir=[(0,1),(1,0),(-1,0),(0,-1)]
-        visited=[[False]*(C) for _ in range(R)]
-        minHeap=[(0,0,0)] #time, row, col 
-        heapq.heapify(minHeap)
-        #Heapified based on the first value i.e time, which we want
-        while minHeap:
-            time,r,c=heapq.heappop(minHeap)
-            if r==R-1 and c==C-1:
+        m,n=len(moveTime),len(moveTime[0])
+        check=[]
+        for i in range(m):
+            check.append([False]*n)
+        check[0][0]=True
+        directions=[[0,1],[1,0],[-1,0],[0,-1]]
+        #time,i,j
+        queue=[[0,0,0]]
+        heapq.heapify(queue)
+        while queue:
+            time,i,j=heapq.heappop(queue)
+            if i==m-1 and j==n-1:
                 return time
-
-            for dr, dc in dir:
-                new_r,new_c=r+dr,c+dc
-
-                if (new_r>=R or new_c>=C or new_r<0 or new_c<0 or visited[new_r][new_c]):
-                    continue
-                
-                visited[new_r][new_c]=True
-                heapq.heappush(minHeap, (max(time+1, moveTime[new_r][new_c]+1),new_r, new_c)) 
-                #We find the max of current time+1 (time to reach adjacent room) and time (+1, same reason) in the current value of the matrix.
-        
+            for dx,dy in directions:
+                nx,ny=i+dx,j+dy
+                if 0<=nx<m and 0<=ny<n and check[nx][ny]==False:
+                    new_time=max(time+1,moveTime[nx][ny]+1)
+                    check[nx][ny]=True
+                    heapq.heappush(queue,[new_time,nx,ny])
         return -1
+            
