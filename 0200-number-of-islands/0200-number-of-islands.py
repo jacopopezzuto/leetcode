@@ -1,18 +1,33 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
+        '''
+        Input: grid = [
+          ["1","1","1","1","0"],
+          ["1","1","0","1","0"],
+          ["1","1","0","0","0"],
+          ["0","0","0","0","0"]
+        ]
+        Output: 1
+        
+        '''
         m,n=len(grid),len(grid[0])
-        directions=[[1,0],[0,1],[-1,0],[0,-1]]
         count=0
-        def bfs(i,j):
-            for x,y in directions:
-                nx,ny = i+x, j+y
-                if 0<=nx<m and 0<=ny<n and grid[nx][ny]=="1":
-                    grid[nx][ny]="2"
-                    bfs(nx,ny)
+        directions=[[0,1],[1,0],[-1,0],[0,-1]]
+        queue=deque()
+        def bfs():
+            while queue:
+                i,j=queue.popleft()
+                for dx,dy in directions:
+                    nx,ny=i+dx,j+dy
+                    if 0<=nx<m and 0<=ny<n and grid[nx][ny]=="1":
+                        grid[nx][ny]="2"
+                        queue.append([nx,ny])
+                    
         
         for i in range(m):
             for j in range(n):
                 if grid[i][j]=="1":
-                    bfs(i,j)
                     count+=1
+                    queue.append([i,j])
+                    bfs()
         return count
