@@ -10,24 +10,31 @@ class Solution:
         Output: 1
         
         '''
+        if not grid:
+            return 0
         m,n=len(grid),len(grid[0])
         count=0
-        directions=[[0,1],[1,0],[-1,0],[0,-1]]
-        queue=deque()
-        def bfs():
-            while queue:
-                i,j=queue.popleft()
-                for dx,dy in directions:
-                    nx,ny=i+dx,j+dy
-                    if 0<=nx<m and 0<=ny<n and grid[nx][ny]=="1":
-                        grid[nx][ny]="2"
-                        queue.append([nx,ny])
-                    
-        
-        for i in range(m):
-            for j in range(n):
-                if grid[i][j]=="1":
-                    count+=1
-                    queue.append([i,j])
-                    bfs()
+        def dfs(r, c):
+            if (
+                r < 0
+                or c < 0
+                or r >= len(grid)
+                or c >= len(grid[0])
+                or grid[r][c] != "1"
+            ):
+                return 
+            
+            grid[r][c] = "2"
+
+            dfs(r - 1, c)
+            dfs(r + 1, c)
+            dfs(r, c - 1)
+            dfs(r, c + 1)
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == "1":
+                    dfs(i, j)
+                    count += 1
+
         return count
+            
