@@ -1,28 +1,28 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        adj_list={}
-        for (a,b) in prerequisites:
-            if a in adj_list:
-                adj_list[a].append(b)
+        adj={}
+        for x,y in prerequisites:
+            if x in adj:
+                adj[x].append(y)
             else:
-                adj_list[a]=[b]
-        print(adj_list)
-        
+                adj[x]=[y]
         visited=set()
-        def dfs(course):
-            if course in visited:
-                return False
-            if course not in adj_list or adj_list[course]==[]:
+        def dfs(i):
+            if i not in adj or len(adj[i])==0:
                 return True
-            visited.add(course)
-            for i in adj_list[course]:
-                result=dfs(i)
-                if result==False:
+            if i in visited:
+                return False
+            visited.add(i)
+            for j in adj[i]:
+                if dfs(j)==False:
                     return False
-            visited.remove(course)
-            adj_list[course]=[]
+            visited.remove(i)
+            adj[i]=[]
             return True
-        for course in range(0,numCourses):
-            if not dfs(course):
+        
+        for i in range(numCourses):
+            if not dfs(i):
                 return False
         return True
+        
+        
