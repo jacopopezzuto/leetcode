@@ -45,5 +45,6 @@
 	<li>All local and domain names are non-empty.</li>
 	<li>Local names do not start with a <code>'+'</code> character.</li>
 	<li>Domain names end with the <code>".com"</code> suffix.</li>
+	<li>Domain names must contain at least one character before <code>".com"</code> suffix.</li>
 </ul>
 </div>
