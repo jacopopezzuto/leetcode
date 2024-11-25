@@ -2,17 +2,12 @@ class Solution:
     def isIsomorphic(self, s: str, t: str) -> bool:
         if len(s)!=len(t):
             return False
-        s_to_t={}
-        t_to_s={}
-        for i in range(0,len(s)):
-            if s[i] in s_to_t:
-                if s_to_t[s[i]]!=t[i]:
-                    return False
+        check=set()
+        map_characters={}
+        for i in range(0,len(t)):
+            if s[i] in map_characters and map_characters[s[i]]!=t[i] or s[i] not in map_characters and t[i] in check:
+                return False
             else:
-                s_to_t[s[i]]=t[i]
-            if t[i] in t_to_s:
-                if t_to_s[t[i]]!=s[i]:
-                    return False
-            else:
-                t_to_s[t[i]]=s[i]
+                map_characters[s[i]]=t[i]
+                check.add(t[i])
         return True
