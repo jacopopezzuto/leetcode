@@ -1,16 +1,16 @@
 class Solution:
     def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
-        queue = deque([0])
-        status = [False]*len(rooms)
-        status[0] = True
-        while queue:
-            for i in range(0,len(queue)):
-                node = queue.popleft()
-                for nei in rooms[node]:
-                    if status[nei] == False:
-                        status[nei]=True
-                        queue.append(nei)
-        for i in range(0,len(status)):
-            if status[i] == False:
+        visited=[False]*len(rooms)
+        visited[0]=True
+        stack = [0]
+        while stack:
+            node = stack.pop()
+            for room in rooms[node]:
+                if not visited[room]:
+                    visited[room]=True
+                    stack.append(room)
+        for visit in visited:
+            if visit==False:
                 return False
         return True
+                    
