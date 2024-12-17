@@ -4,30 +4,20 @@ class MyCalendar:
         self.calendar = SortedList()
 
     def book(self, start: int, end: int) -> bool:
-        # Trova la posizione corretta per il nuovo evento
-        idx = self.find_insert_position(start, end)
+        # Trova la posizione in cui l'evento potrebbe essere inserito
+        idx = self.calendar.bisect_right((start, end))
         
-        # Verifica se l'inserimento causa un conflitto con un evento esistente
+        # Verifica se l'inserimento causa un conflitto con l'evento precedente
         if idx > 0 and self.calendar[idx-1][1] > start:
             return False
+        
+        # Verifica se l'inserimento causa un conflitto con l'evento successivo
         if idx < len(self.calendar) and self.calendar[idx][0] < end:
             return False
         
-        # Aggiungi l'evento nella posizione trovata
+        # Aggiungi l'evento alla lista, mantenendo l'ordinamento
         self.calendar.add((start, end))
         return True
-
-    def find_insert_position(self, start: int, end: int) -> int:
-        # Implementiamo manualmente la ricerca binaria per trovare la posizione corretta
-        low, high = 0, len(self.calendar)
-        while low < high:
-            mid = (low + high) // 2
-            # Confronta l'inizio dell'evento con l'inizio degli eventi nella lista
-            if self.calendar[mid][0] < start:
-                low = mid + 1
-            else:
-                high = mid
-        return low
         
 
 
