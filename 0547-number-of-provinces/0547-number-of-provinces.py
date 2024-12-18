@@ -1,24 +1,20 @@
 class Solution:
     def findCircleNum(self, isConnected: List[List[int]]) -> int:
-        # n = number of cities
-        n = len(isConnected)
-        visit = [0]*n
-        numberOfComponents=0
-            
-        def bfs(node, isConnected, visit):
-            queue=deque([node])
-            visit[node]=1
+        n=len(isConnected)
+        visited=[False]*n
+        def bfs(i):
+            queue=deque([i])
+            visited[i]=True
             while queue:
-                city=queue.popleft()
-                for i in range(0,n):
-                    if isConnected[city][i]==1 and visit[i]==0:
-                        queue.append(i)
-                        visit[i]=1
+                j=queue.popleft()
+                for z,k in enumerate(isConnected[j]):
+                    if k==1 and visited[z]==False:
+                        queue.append(z)
+                        visited[z]=True
+        result=0
+        for i in range(n):
+            if not visited[i]:
+                bfs(i)
+                result+=1
+        return result
             
-            
-        for i in range(0,n):
-            if visit[i]==0:
-                numberOfComponents+=1
-                bfs(i, isConnected, visit)
-                
-        return numberOfComponents
