@@ -1,16 +1,13 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        memo={}
-        def backtracking(i:int)->int:
-            if i==0:
-                return nums[0]
-            if i==1:
-                return max(nums[0],nums[1])
-            if i in memo:
-                return memo[i]
-            ans= max(backtracking(i-1),nums[i]+backtracking(i-2))
-            memo[i]=ans
-            return ans
-            
-            
-        return backtracking(len(nums)-1)
+        n=len(nums)
+        if n==0:
+            return 0
+        if n==1:
+            return nums[0]
+        arr=[0]*n
+        arr[0]=nums[0]
+        arr[1]=max(nums[0],nums[1])
+        for i in range(2,n):
+            arr[i]=max(arr[i-1],nums[i]+arr[i-2])
+        return arr[n-1]
